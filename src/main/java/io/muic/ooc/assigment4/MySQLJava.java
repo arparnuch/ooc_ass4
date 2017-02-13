@@ -1,6 +1,7 @@
 package io.muic.ooc.assigment4;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class MySQLJava {
 
@@ -73,9 +74,6 @@ public class MySQLJava {
             flag = insertData(user);
         }
 
-
-
-
         close();
        return flag;
 
@@ -106,12 +104,36 @@ public class MySQLJava {
 
     }
 
+    public ArrayList<User> getListOfUsers() throws Exception {
+        ArrayList<User> users = new ArrayList<>();
+        int id;
+        String username;
+        String password;
+        String firstname;
+        String surname;
+        String email;
+        System.out.println("Enter getList");
+        while (resultSet.next()) {
+            username = resultSet.getString("USERNAME");
+            password = resultSet.getString("PASSWORD");
+            firstname = resultSet.getString("FIRSTNAME");
+            surname = resultSet.getString("SURNAME");
+            email = resultSet.getString("EMAIL");
+            System.out.println(username);
+            users.add(new User(username,password,null,firstname,surname,email));
+
+
+
+        }
+
+        return users;
+    }
     private boolean isValidUser(ResultSet resultSet, User user) throws Exception {
         int id;
         String username;
         String password;
 
-
+        System.out.println("Enter isValid");
         while (resultSet.next()) {
             username = resultSet.getString("USERNAME");
             password = resultSet.getString("PASSWORD");

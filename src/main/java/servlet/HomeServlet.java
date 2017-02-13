@@ -25,13 +25,13 @@ public class HomeServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
+        System.out.println("Enter Get in HomeServlet");
 
     }
 
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
-//        System.out.println("Enter");
+        System.out.println("Enter Post in HomeServlet");
         String UserUsername = request.getParameter("username");
         String UserPassword = request.getParameter("password");
 //        RequestDispatcher rd = null;
@@ -48,7 +48,7 @@ public class HomeServlet extends HttpServlet{
             boolean isIn = database.readData("login", user);
             if (isIn){
                 user.setAuthen(true);
-                response.sendRedirect("usersList.jsp");
+                response.sendRedirect("usersList.jsp");//
             }
             else{
                 JOptionPane.showMessageDialog(null, "Fail to Login!");
@@ -57,10 +57,8 @@ public class HomeServlet extends HttpServlet{
 
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            out.flush();
-            out.close();
         }
+
 
     }
 

@@ -1,20 +1,32 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Insert title here</title>
 </head>
 <body>
-<h1>User List Page</h1>
-<form action="register" method="post">
-    Enter your username : <input type="text" name="username"> <BR>
-    Enter your password : <input type="password" name="password"> <BR>
-    Enter your firstname : <input type="text" name="firstname"> <BR>
-    Enter your lastname : <input type="text" name="lastname"> <BR>
-    Enter your email : <input type="text" name="email"> <BR>
-    <input type="submit" />
+    <%--<form action="/users" method="get"></form>--%>
+<form action="/users" method="post">
+    <h1>User List Page</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>First name</td>
+                <td>Last name</td>
+                <td>E-mail</td>
+            </tr>
+        </thead>
+        <c:forEach var="u" items="${userArrayList}">
+            <tr>
+                <td>${u.firstname}</td>
+                <td>${u.lastName}</td>
+                <td>${u.email}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <input type="submit">
 </form>
+
 </body>
 </html>
