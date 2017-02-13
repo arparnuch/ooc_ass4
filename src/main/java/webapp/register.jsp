@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1>Register Page</h1>
-<form action="HomeServlet" method="post">
+<form action="RegisterServlet" method="post">
     Enter username : <input type="text" name="username"> <BR>
 
     Enter password : <input type="password" name="password"> <BR>

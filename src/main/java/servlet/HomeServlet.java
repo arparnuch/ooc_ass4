@@ -46,10 +46,10 @@ public class HomeServlet extends HttpServlet{
 
         try {
             database.connectDatabase();
-
             database.queryData("SELECT * FROM ooc_webapp.accessTable");
-            boolean isIn = database.readData("login", new User(UserUsername,UserPassword,null));
 
+            boolean isIn = database.readData("login", new User(UserUsername,UserPassword,null));
+//            System.out.println(isIn);
             if (isIn) response.sendRedirect("home.jsp");
             else response.sendRedirect("register.jsp");
 

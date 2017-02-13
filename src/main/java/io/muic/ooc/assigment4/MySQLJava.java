@@ -46,18 +46,16 @@ public class MySQLJava {
         }
     }
 
-    public ResultSet queryData(String sql){
-        ResultSet resultSet = null;
+    public void queryData(String sql){
+
         try {
             resultSet = statement.executeQuery(sql);
-
+//            System.out.println(resultSet.next());
         } catch (SQLException e) {
             System.out.println("SQL Error");
-        }finally {
-            close();
         }
 
-        return resultSet;
+
     }
 
     public boolean readData(String mode, User user) throws Exception {
