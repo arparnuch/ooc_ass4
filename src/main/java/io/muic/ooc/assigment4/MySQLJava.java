@@ -1,8 +1,6 @@
 package io.muic.ooc.assigment4;
 
-import javax.xml.transform.Result;
 import java.sql.*;
-import java.util.ArrayList;
 
 public class MySQLJava {
 
@@ -35,13 +33,16 @@ public class MySQLJava {
             Class.forName(MYSQL_DRIVER);
             connection = DriverManager.getConnection(jdbcURL, USER, PASS);
             statement = connection.createStatement();
+            System.out.println("Connect To Database ...");
         } catch (ClassNotFoundException e) {
             System.out.println("Class not found");
         } catch (SQLException e) {
-//            e.printStackTrace();
+
+
             System.out.println("SQL Error");
 
         }finally {
+
             return statement;
         }
     }
@@ -50,7 +51,8 @@ public class MySQLJava {
 
         try {
             resultSet = statement.executeQuery(sql);
-//            System.out.println(resultSet.next());
+
+            System.out.println("Querying sql ...");
         } catch (SQLException e) {
             System.out.println("SQL Error");
         }
@@ -59,44 +61,68 @@ public class MySQLJava {
     }
 
     public boolean readData(String mode, User user) throws Exception {
-        boolean flag;
-//        statement.executeQuery("SELECT * FROM ooc_webapp.accessTable");
-        flag = getResultSet(resultSet, mode, user);
-//            preparedStatement = connection.prepareStatement("insert into ooc_webapp.accessTable values (default,?)");
-//            preparedStatement.setString(1, "insert test from java");
-//            preparedStatement.executeUpdate();
+        boolean flag = false;
+//        statement.executeQuery();
+        System.out.println("Read data ...");
+        if (mode.equals("login")){
+            System.out.println("Login");
+            flag = isValidUser(resultSet, user);
+        }
+        else if (mode.equals("register")){
+            System.out.println("Register");
+            flag = insertData(user);
+        }
+
+
+
 
         close();
        return flag;
 
     }
 
-    public boolean insertData(String mode ,User user) throws Exception{
-        boolean flag = false;
+    public boolean insertData(User user) {
+        boolean flag = true;
+        try {
+            System.out.println("INSERTing ..");
+            System.out.println(user.getFirstname());
+            preparedStatement = connection.prepareStatement("INSERT INTO ooc_webapp.accessTable (USERNAME, PASSWORD, FIRSTNAME, SURNAME, EMAIL) VALUES (?,?,?,?,?)");
+            System.out.println("pass pre");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFirstname());
+            preparedStatement.setString(4, user.getLastname());
+            preparedStatement.setString(5, user.getEmail());
+            preparedStatement.executeUpdate();
+            System.out.println("Database UPDATED!");
+        } catch (SQLException e) {
+            flag = !flag;
+            System.out.println("SQL FAIL!!");
+            System.out.println(e.getMessage());
+        }finally {
+            return flag;
+        }
 
-        return flag;
+
     }
 
-    private boolean getResultSet(ResultSet resultSet, String mode, User user) throws Exception {
+    private boolean isValidUser(ResultSet resultSet, User user) throws Exception {
         int id;
         String username;
         String password;
 
-        if (mode.equals("login")){
-            while (resultSet.next()) {
-                username = resultSet.getString("USERNAME");
-                password = resultSet.getString("PASSWORD");
 
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)){
-                    return true;
-                }
+        while (resultSet.next()) {
+            username = resultSet.getString("USERNAME");
+            password = resultSet.getString("PASSWORD");
 
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)){
+                return true;
             }
-            return false;
+
         }
-
-
         return false;
+
 
 
     }
@@ -108,9 +134,15 @@ public class MySQLJava {
             if (resultSet != null) {
                 resultSet.close();
             }
+
             if (statement != null) {
                 statement.close();
             }
+
+            if (preparedStatement != null){
+                preparedStatement.close();
+            }
+
             if (connection != null) {
                 connection.close();
             }

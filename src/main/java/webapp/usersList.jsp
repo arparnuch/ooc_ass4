@@ -7,7 +7,7 @@
     <title>Insert title here</title>
 </head>
 <body>
-<h1>Register Page</h1>
+<h1>User List Page</h1>
 <form action="register" method="post">
     Enter your username : <input type="text" name="username"> <BR>
     Enter your password : <input type="password" name="password"> <BR>
